@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class August_2 {
+    public static long c;
 
     @Test
     public void al_12865() {
@@ -71,5 +72,38 @@ public class August_2 {
             sb.append(maxHeap.peek() + "\n");
         }
         System.out.println(sb);
+    }
+
+    @Test
+    public void al_1629() {
+        Scanner in = new Scanner(System.in);
+
+        long a = in.nextLong();
+        long b = in.nextLong();
+        long c = in.nextLong();
+        System.out.println(pow(a, b));
+    }
+
+    public long pow(long a, long exponent) {
+
+        // 지수가 1일 경우, a^1 이므로 a를 그대로 리턴
+        if (exponent == 1) {
+            return a % c;
+        }
+
+        // 지수의 절반에 해당하는 a^(b/2)를 구함
+        long temp = pow(a, exponent/2);
+
+        /*
+         * 현재 지수가 홀수라면,
+         * a^(exponent / 2) * a^(exponent / 2) * a 이므로
+         * a를 한번 더 곱해주어야 함
+         *
+         * ex) a^9 = a^4 * a^4 * a
+         */
+        if (exponent % 2 == 1)
+            return (temp * temp % c) * a % c;
+
+        return temp * temp % c;
     }
 }
