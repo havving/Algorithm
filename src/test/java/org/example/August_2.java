@@ -2,11 +2,19 @@ package org.example;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class August_2 {
     public static long c;
+
+    public static int L, C;
+    public static boolean[] visited;
+    public static String[] arr;
+    public static ArrayList<String> list;
+
 
     @Test
     public void al_12865() {
@@ -74,6 +82,7 @@ public class August_2 {
         System.out.println(sb);
     }
 
+
     @Test
     public void al_1629() {
         Scanner in = new Scanner(System.in);
@@ -92,7 +101,7 @@ public class August_2 {
         }
 
         // 지수의 절반에 해당하는 a^(b/2)를 구함
-        long temp = pow(a, exponent/2);
+        long temp = pow(a, exponent / 2);
 
         /*
          * 현재 지수가 홀수라면,
@@ -105,5 +114,61 @@ public class August_2 {
             return (temp * temp % c) * a % c;
 
         return temp * temp % c;
+    }
+
+
+    @Test
+    public void al_1759() {
+        Scanner in = new Scanner(System.in);
+
+        // l개의 알파벳 소문자들
+        L = in.nextInt();
+        // 암호로 사용 가능한 문자의 종류
+        C = in.nextInt();
+        in.nextLine();
+
+        String str = in.nextLine();
+        arr = str.split(" ");
+        Arrays.sort(arr);
+
+        visited = new boolean[C];
+        list = new ArrayList<>();
+        combination(0, L);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++)
+            sb.append(list.get(i) + "\n");
+
+        System.out.println(sb);
+    }
+
+    // 조합 백트래킹으로 구현
+    private void combination(int start, int r) {
+        if (r == 0) {
+            int[] alpha = new int[123];
+            String result = "";
+
+            for (int i = 0; i < c; i ++) {
+                if (visited[i]) {
+                    result += arr[i];
+                    alpha[arr[i].charAt(0)]++;
+                }
+            }
+
+            // 모음 개수
+            int vowels = alpha['a'] + alpha['e'] + alpha['i'] + alpha['o'] + alpha['u'];
+            // 자음 개수
+            int consonants = L - vowels;
+
+            if (vowels >= 1 && consonants >= 2)
+                list.add(result);
+            return;
+        } else {
+            for (int i = start; i < C; i++) {
+                visited[i] = true;
+                combination(i+1, r-1);
+                visited[i] = false;
+            }
+        }
     }
 }
