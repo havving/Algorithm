@@ -2,10 +2,8 @@ package org.example;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class August_2 {
     public static long c;
@@ -14,6 +12,11 @@ public class August_2 {
     public static boolean[] visited;
     public static String[] arr;
     public static ArrayList<String> list;
+
+    public static int m;
+    public static int ans = 0;
+    public static boolean[] v;
+    public static ArrayList<Integer>[] n_list;
 
 
     @Test
@@ -171,4 +174,56 @@ public class August_2 {
             }
         }
     }
+
+
+    @Test
+    public void al_13023() throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        m = M;
+
+        // DFS를 위한 인접 리스트 구현
+        n_list = new ArrayList[N];
+        v = new boolean[N];
+        for (int i = 0; i < M; i++)
+            n_list[i] = new ArrayList<Integer>();
+
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int n1 = Integer.parseInt(st.nextToken());
+            int n2 = Integer.parseInt(st.nextToken());
+            n_list[n1].add(n2);
+            n_list[n2].add(n1);
+        }
+
+        // N-1 까지의 모든 정점에서 DFS를 통해 확인
+        for (int i = 0; i < N; i++) {
+            if (ans == 0) dfs(i, 1);
+        }
+
+        bw.write(Integer.toString(ans));;
+        bw.flush();
+        bw.close();
+        br.close();
+    }
+
+    public void dfs(int start, int depth) {
+        if (depth == 5) {
+            ans = 1;
+            return;
+        }
+
+        v[start] = true;
+        for (int i : n_list[start]) {
+            int next = i;
+            if (!v[next])
+                dfs(next, depth+1);
+        }
+        v[start] = false;
+    }
+
 }
