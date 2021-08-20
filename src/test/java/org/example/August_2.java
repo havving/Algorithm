@@ -18,7 +18,7 @@ public class August_2 {
     public static boolean[] v;
     public static ArrayList<Integer>[] n_list;
 
-    static LinkedList<Integer>[] adjList;
+    public static LinkedList<Integer>[] adjList;
     public static int answer = 0;
 
 
@@ -270,5 +270,6 @@ public class August_2 {
             answer += cnt;
         }
     }
+
 
 }
